@@ -1,4 +1,3 @@
-<!-- ⚠️ QUARANTINED — NOT FOR DIRECT PUBLICATION. Source material: human review + QA every link before paste. -->
 <!-- ════════════════════════════════════════════════════════════
   HUBCITY v9 — "Pick what you came for"
   Systeme.io Raw HTML Block | Copy-paste ready
@@ -113,7 +112,7 @@
 /* ── FOOTER ── */
 .hc-stage .hc-foot{border-top:1px solid #35332d;padding-top:18px;margin-top:22px;text-align:center;font-size:12px;line-height:1.8;color:var(--hc-muted)}
 .hc-stage .hc-foot a{color:var(--hc-gold)}
-.hc-stage .hc-reveal{min-height:44px;background:rgba(197,160,90,.12);border:1px solid rgba(197,160,90,.35);color:var(--hc-gold);padding:5px 14px;border-radius:999px;font:600 11px/1 inherit;cursor:pointer}
+.hc-stage .hc-reveal{min-height:44px;background:rgba(197,160,90,.12);border:1px solid rgba(197,160,90,.35);color:var(--hc-gold);padding:5px 14px;border-radius:999px;font-family:inherit;font-size:11px;font-weight:600;line-height:1;cursor:pointer}
 .hc-stage .hc-lgl{display:flex;justify-content:center;flex-wrap:wrap;gap:4px}
 .hc-stage .hc-lgl a{display:inline-flex;align-items:center;min-height:44px;padding:6px}
 .hc-stage a:focus-visible,.hc-stage button:focus-visible{outline:3px solid #fff;outline-offset:3px}
@@ -133,7 +132,7 @@
 
   <!-- HEADER: one identity line -->
   <div class="hc-head">
-    <div class="hc-logo" aria-label="MotoCity">MOTO<b>CITY</b></div>
+    <div class="hc-logo" role="img" aria-label="MotoCity">MOTO<b>CITY</b></div>
     <div class="hc-who">Nate Larry<span>Creator of MotoCity</span></div>
   </div>
 
@@ -373,33 +372,36 @@
 
 <script>
 (function(){
-  var root = document.currentScript.previousElementSibling;
-  if (!root || !root.classList.contains('hc-stage')) return;
+  var root = document.querySelector('.hc-stage:not([data-hc-ready])');
+  if (!root) return;
+  root.setAttribute('data-hc-ready', '1');
 
   /* 1. Carry source tags (?utm_*, ?src) from the social bio link into every funnel link */
   var inbound = new URLSearchParams(location.search), carry = [];
   inbound.forEach(function(v,k){ if (/^(utm_|src$|fbclid$|ttclid$)/.test(k)) carry.push([k,v]); });
-  if (carry.length) root.querySelectorAll('a[href^="http"]').forEach(function(a){
+  if (carry.length) Array.prototype.forEach.call(root.querySelectorAll('a[href^="http"]'), function(a){
     if (!/systeme\.io|motocity\.autos/.test(a.hostname) || a.hostname === 'systeme.io') return; // owned funnels only
-    var u = new URL(a.href);
-    carry.forEach(function(p){ if (!u.searchParams.has(p[0])) u.searchParams.set(p[0], p[1]); });
-    a.href = u.toString();
+    try {
+      var u = new URL(a.href);
+      carry.forEach(function(p){ if (!u.searchParams.has(p[0])) u.searchParams.set(p[0], p[1]); });
+      a.href = u.toString();
+    } catch(e){}
   });
 
   /* 2. Click events → whichever analytics is present */
   function track(name, props){
-    try { (window.dataLayer = window.dataLayer || []).push(Object.assign({event:name}, props)); } catch(e){}
+    try { (window.dataLayer = window.dataLayer || []).push((function(o){ for (var k in props) o[k] = props[k]; return o; })({event:name})); } catch(e){}
     try { if (window.gtag) gtag('event', name, props); } catch(e){}
     try { if (window.fbq) fbq('trackCustom', name, props); } catch(e){}
   }
   var src = inbound.get('utm_source') || inbound.get('src') || 'direct';
   root.addEventListener('click', function(e){
-    var el = e.target.closest('[data-track]');
-    if (el) track(el.dataset.track + '_click', {card: el.dataset.card, position: el.dataset.pos || '', source: src});
+    var el = e.target.closest ? e.target.closest('[data-track]') : null;
+    if (el) track(el.getAttribute('data-track') + '_click', {card: el.getAttribute('data-card'), position: el.getAttribute('data-pos') || '', source: src});
   });
 
   /* 3. Accordion: doors render closed, one open at a time, Esc closes */
-  var groups = Array.from(root.querySelectorAll('.hc-group'));
+  var groups = Array.prototype.slice.call(root.querySelectorAll('.hc-group'));
   function setOpen(g, open){
     g.querySelector('.hc-door').setAttribute('aria-expanded', String(open));
     g.querySelector('.hc-subs').hidden = !open;

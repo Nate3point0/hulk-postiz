@@ -1,0 +1,14 @@
+{
+  "_comment": "Edit keywords/funnel URLs to match your ecosystem. First keyword hit wins; unmatched -> general.",
+  "niches": {
+    "music-production": {"keywords": ["music","beat","dj","studio","vinyl","mixer","speaker","headphone","sample","mixboard","audio","synth","turntable"],
+                         "funnel": "hulk-music-factory sample packs", "funnel_url": "https://moto-city.systeme.io/"},
+    "motocity-ai-tools": {"keywords": ["ai","robot","tech","neon","cyber","laptop","code","dashboard","screen","hulk"],
+                          "funnel": "MotoCity AI tools hub", "funnel_url": "https://moto-city.systeme.io/"},
+    "merch-pod":        {"keywords": ["shirt","tee","hoodie","mug","sticker","poster","print","pattern","logo","mockup","merch","product"],
+                         "funnel": "Redbubble/Printify merch", "funnel_url": ""},
+    "lifestyle-brand":  {"keywords": ["city","street","urban","car","moto","night","portrait","fashion","lifestyle","background","texture"],
+                         "funnel": "CityFunk brand / lead magnet", "funnel_url": "https://moto-city.systeme.io/"}
+  },
+  "default_niche": "lifestyle-brand"
+}

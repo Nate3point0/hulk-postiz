@@ -1,0 +1,427 @@
+<!-- ════════════════════════════════════════════════════════════
+  HUBCITY v9 — "Pick what you came for"
+  Systeme.io Raw HTML Block | Copy-paste ready
+  Changes vs v8 (per 2026-09-25 conversion audit):
+   - One identity line, plain-language hero, trust cue
+   - 5 doors → 4 outcome paths (Shop split into Cars / AI)
+   - Bookings compressed to a 3-up strip that stays above the fold on mobile
+   - Every card has ONE action-named button
+   - Affiliates stay below owned funnels, disclosure beside them
+   - Source tags (utm_* / src) carried into every funnel link
+   - path_click / book_click events → dataLayer, gtag, fbq if present
+  All v8 destination URLs preserved. Doors still render closed.
+  ════════════════════════════════════════════════════════════ -->
+
+<style>
+.hc-stage,.hc-stage *{box-sizing:border-box}
+.hc-stage{
+  --hc-bg:#0d0e10;--hc-txt:#f7f5ef;--hc-muted:#bcbab3;--hc-gold:#e5c987;
+  background:radial-gradient(ellipse at 50% 0,#29251b 0,transparent 480px),var(--hc-bg);
+  color:var(--hc-txt);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;
+  padding:24px 16px 32px;width:100%;overflow-wrap:break-word
+}
+.hc-stage h1,.hc-stage h2,.hc-stage p{margin:0}
+.hc-stage .hc-inner{width:100%;max-width:640px;margin:auto}
+
+/* ── HEADER (compact, <72px) ── */
+.hc-stage .hc-head{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:18px}
+.hc-stage .hc-logo{font-family:"Arial Black","Helvetica Neue",system-ui,sans-serif;font-size:30px;font-weight:900;letter-spacing:-.07em;line-height:1;white-space:nowrap}
+.hc-stage .hc-logo b{font-weight:900;background:linear-gradient(150deg,#fff0bf 5%,#e5c987 45%,#ad8546 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#e5c987}
+.hc-stage .hc-who{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--hc-muted);border-left:1px solid #3c3b37;padding-left:10px;line-height:1.3}
+.hc-stage .hc-who span{display:block;color:var(--hc-gold)}
+@media(forced-colors:active){.hc-stage .hc-logo b{background:none;-webkit-text-fill-color:CanvasText}}
+
+/* ── HERO ── */
+.hc-stage .hc-hero{text-align:center;margin-bottom:16px}
+.hc-stage .hc-hero h1{font-size:clamp(1.7rem,7vw,2.3rem);font-weight:850;letter-spacing:-.035em;line-height:1.1;margin-bottom:8px}
+.hc-stage .hc-hero p{font-size:14px;color:var(--hc-muted);max-width:440px;margin:0 auto}
+.hc-stage .hc-trust{display:inline-block;margin-top:10px;font-size:11.5px;font-weight:700;color:var(--hc-gold);letter-spacing:.02em}
+
+/* ── BOOKING STRIP (money row) ── */
+.hc-stage .hc-book-label{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#bbb7ac;margin:0 0 8px;text-align:center}
+.hc-stage .hc-book{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:20px}
+.hc-stage .hc-bk{
+  display:flex;flex-direction:column;align-items:center;gap:4px;min-height:44px;padding:10px 6px;border-radius:13px;
+  background:linear-gradient(155deg,color-mix(in srgb,var(--accent) 14%,#1a1b1e),#121316 75%);
+  border:1px solid color-mix(in srgb,var(--accent) 50%,#2a2b2f);color:var(--hc-txt);text-decoration:none;text-align:center;
+  transition:transform .15s,border-color .15s
+}
+.hc-stage .hc-bk:hover,.hc-stage .hc-bk:active{transform:translateY(-2px);border-color:var(--accent)}
+.hc-stage .hc-bk svg{width:24px;height:24px;stroke:var(--accent);fill:none}
+.hc-stage .hc-bk-t{font-size:12.5px;font-weight:850;line-height:1.2}
+.hc-stage .hc-bk-n{font-size:10px;color:var(--hc-muted);line-height:1.3}
+
+/* ── 4 PATHS ── */
+.hc-stage .hc-doors{display:grid;gap:10px}
+.hc-stage .hc-group:nth-child(1){--accent:#7dd3fc;--tint:#192a33}
+.hc-stage .hc-group:nth-child(2){--accent:#a78bfa;--tint:#242032}
+.hc-stage .hc-group:nth-child(3){--accent:#f472d0;--tint:#32182c}
+.hc-stage .hc-group:nth-child(4){--accent:#6ee7b7;--tint:#18302a}
+
+.hc-stage .hc-door,.hc-stage .hc-sub-link,.hc-stage .hc-aff{
+  display:flex;align-items:center;gap:14px;width:100%;padding:16px;text-align:left;
+  background:#1a1b1e;border:1px solid #38393d;border-radius:16px;
+  color:var(--hc-txt);text-decoration:none;font:inherit;cursor:pointer;transition:border-color .15s,background .15s
+}
+.hc-stage .hc-door{border-left:3px solid var(--accent)}
+.hc-stage .hc-door:hover,.hc-stage .hc-door[aria-expanded="true"]{border-color:var(--accent);background:#202125}
+.hc-stage .hc-ico{
+  display:flex;align-items:center;justify-content:center;width:48px;height:48px;flex:0 0 48px;border-radius:14px;
+  background:radial-gradient(circle at 32% 24%,color-mix(in srgb,var(--accent) 27%,#fff),var(--tint,#29251b) 67%);
+  border:1px solid color-mix(in srgb,var(--accent) 70%,#fff);color:#fff
+}
+.hc-stage .hc-ico svg{width:27px;height:27px;stroke:currentColor;fill:none}
+.hc-stage .hc-meta{flex:1;min-width:0}
+.hc-stage .hc-title{display:block;font-size:17px;line-height:1.25;font-weight:800;letter-spacing:-.02em}
+.hc-stage .hc-desc{display:block;color:var(--hc-muted);font-size:13px;line-height:1.45;margin-top:3px}
+.hc-stage .hc-cta{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 11px;border-radius:999px;background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent);font-size:10.5px;font-weight:850;letter-spacing:.06em;text-transform:uppercase}
+.hc-stage .hc-chev{flex:0 0 16px;display:flex;transition:transform .15s}
+.hc-stage .hc-chev svg{width:16px;height:16px;stroke:var(--accent,#c2bfb7);fill:none}
+.hc-stage .hc-door[aria-expanded="true"] .hc-chev{transform:rotate(90deg)}
+.hc-stage .hc-subs{display:grid;gap:8px;margin:8px 0 4px;padding-left:10px;border-left:2px solid var(--accent)}
+.hc-stage .hc-subs[hidden]{display:none!important}
+.hc-stage .hc-sub-link{padding:14px;border-radius:12px;background:#141518;gap:12px}
+.hc-stage .hc-sub-link:hover{border-color:var(--accent)}
+.hc-stage .hc-sub-link .hc-ico{width:40px;height:40px;flex-basis:40px;border-radius:11px}
+.hc-stage .hc-sub-link .hc-ico svg{width:22px;height:22px}
+.hc-stage .hc-sub-link .hc-title{font-size:15px}
+.hc-stage .hc-free{display:block;font-size:12px;color:var(--accent);margin-top:5px;font-weight:600}
+.hc-stage .hc-pop{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--hc-gold);color:#1a1405;font-size:9px;font-weight:900;letter-spacing:.06em;vertical-align:middle;text-transform:uppercase}
+.hc-stage .hc-disabled{opacity:.7;cursor:default;border-style:dashed}
+.hc-stage .hc-soon{display:inline-flex;margin-top:6px;padding:3px 8px;border-radius:999px;background:#292b31;color:#d4d7dd;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+
+/* ── TOOLS (affiliates) ── */
+.hc-stage .hc-section-label{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#bbb7ac;margin:28px 0 6px}
+.hc-stage .hc-section-note{font-size:12px;color:var(--hc-muted);margin-bottom:4px}
+.hc-stage .hc-aff{margin-top:10px;background:#171819}
+.hc-stage .hc-aff .hc-title{font-size:15px}
+.hc-stage .hc-brand-logo{display:grid;place-items:center;width:72px;min-width:72px;height:42px;border-radius:11px;font-weight:950;font-size:12px;letter-spacing:-.04em;background:#fff}
+.hc-stage .hc-brand-logo.systeme{color:#19191b}.hc-stage .hc-brand-logo.systeme span{color:#00a0ff}
+.hc-stage .hc-brand-logo.postiz{background:linear-gradient(145deg,#4f46e5,#7c3aed);color:#fff;letter-spacing:.05em}
+.hc-stage .hc-aff-sys{--accent:#00a0ff;border-color:#164d69;background:linear-gradient(135deg,#102430,#171819 62%)}
+.hc-stage .hc-aff-sys .hc-title{color:#5bc3ff}
+.hc-stage .hc-aff-post{--accent:#818cf8;border-color:#2a2a4a}
+.hc-stage .hc-aff-post .hc-title{color:#818cf8}
+.hc-stage .hc-aff:hover{border-color:var(--accent)}
+
+/* ── SOCIAL ── */
+.hc-stage .hc-connect{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.hc-stage .hc-soc-btn{display:inline-flex;align-items:center;min-height:44px;padding:10px 13px;border:1px solid #3c3b37;border-radius:10px;color:#d1cec6;font-size:12px;text-decoration:none}
+.hc-stage .hc-soc-btn:hover{border-color:var(--hc-gold)}
+
+/* ── FOOTER ── */
+.hc-stage .hc-foot{border-top:1px solid #35332d;padding-top:18px;margin-top:22px;text-align:center;font-size:12px;line-height:1.8;color:var(--hc-muted)}
+.hc-stage .hc-foot a{color:var(--hc-gold)}
+.hc-stage .hc-reveal{min-height:44px;background:rgba(197,160,90,.12);border:1px solid rgba(197,160,90,.35);color:var(--hc-gold);padding:5px 14px;border-radius:999px;font-family:inherit;font-size:11px;font-weight:600;line-height:1;cursor:pointer}
+.hc-stage .hc-lgl{display:flex;justify-content:center;flex-wrap:wrap;gap:4px}
+.hc-stage .hc-lgl a{display:inline-flex;align-items:center;min-height:44px;padding:6px}
+.hc-stage a:focus-visible,.hc-stage button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+
+@media(max-width:400px){
+  .hc-stage{padding:18px 12px 28px}
+  .hc-stage .hc-logo{font-size:26px}
+  .hc-stage .hc-door{padding:14px 12px;gap:11px}
+  .hc-stage .hc-title{font-size:15.5px}
+  .hc-stage .hc-bk-n{display:none}
+}
+@media(prefers-reduced-motion:reduce){.hc-stage *{transition:none!important}}
+</style>
+
+<div class="hc-stage">
+<div class="hc-inner">
+
+  <!-- HEADER: one identity line -->
+  <div class="hc-head">
+    <div class="hc-logo" role="img" aria-label="MotoCity">MOTO<b>CITY</b></div>
+    <div class="hc-who">Nate Larry<span>Creator of MotoCity</span></div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hc-hero">
+    <h1>Pick what you came for.</h1>
+    <p>Cars, AI &amp; business systems, music, and wellness. Choose your lane and I'll take you straight to the right resource.</p>
+    <span class="hc-trust">Real tools · Practical game · No runaround</span>
+  </div>
+
+  <!-- BOOKINGS: direct revenue, one tap -->
+  <div class="hc-book-label">Book a service</div>
+  <div class="hc-book">
+    <a class="hc-bk" data-track="book" data-card="dj" href="https://moto-city.systeme.io/dj?ref=hubcity-dj" style="--accent:#d36ae3">
+      <svg viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 9h18"/></svg>
+      <span class="hc-bk-t">Book the DJ</span><span class="hc-bk-n">$100 locks your date</span>
+    </a>
+    <a class="hc-bk" data-track="book" data-card="detail" href="https://www.motocity.autos/detail?ref=hubcity-detail" style="--accent:#37adf3">
+      <svg viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><path d="M3 16v-4l2-4h11l3 4v4H3zM6 16v3M16 16v3M5 12h12"/></svg>
+      <span class="hc-bk-t">Get a Detail</span><span class="hc-bk-n">Mobile paint &amp; ceramic</span>
+    </a>
+    <a class="hc-bk" data-track="book" data-card="mechanic" href="tel:+19095159838" style="--accent:#ff9f43">
+      <svg viewBox="0 0 24 24" stroke-width="1.9" aria-hidden="true"><path d="M14 7a5 5 0 006.3 4.8L12 20.1a2.7 2.7 0 01-3.8-3.8l8.3-8.3A5 5 0 0121 1.7l-3.2 3.2-3.1-.6-.7 2.7z"/></svg>
+      <span class="hc-bk-t">Call a Mechanic</span><span class="hc-bk-n">Diagnosis &amp; repair</span>
+    </a>
+  </div>
+
+  <!-- 4 PATHS -->
+  <div class="hc-doors">
+
+    <!-- 1 · CARS & OPPORTUNITIES -->
+    <div class="hc-group">
+      <button type="button" id="hc-door-cars" class="hc-door" aria-expanded="false" aria-controls="subs-cars" data-track="path" data-card="cars" data-pos="1">
+        <span class="hc-ico"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M3 16v-4l2-4h10l3 4v4H3zM6 16v3M15 16v3M5 12h12"/></svg></span>
+        <span class="hc-meta">
+          <span class="hc-title">Cars &amp; Opportunities</span>
+          <span class="hc-desc">Know what it's worth, find auction deals, shop parts &amp; gear.</span>
+          <span class="hc-cta">Explore cars</span>
+        </span>
+        <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
+      <div class="hc-subs" id="subs-cars" role="region" aria-labelledby="hc-door-cars" hidden>
+        <a class="hc-sub-link" data-track="path" data-card="cars-valuation" href="https://moto-city.systeme.io/cars?ref=hubcity-valuation">
+          <span class="hc-meta">
+            <span class="hc-title">Check My Car's Value <span class="hc-pop">Free</span></span>
+            <span class="hc-desc">Real auction data. Know the number before you buy or sell.</span>
+            <span class="hc-free">↳ Instant valuation, results in seconds</span>
+          </span>
+          <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
+        </a>
+        <a class="hc-sub-link" data-track="path" data-card="cars-gov" href="https://www.motocity.autos/gov-auction?ref=hubcity-gov">
+          <span class="hc-meta">
+            <span class="hc-title">See Government Auction Deals</span>
+            <span class="hc-desc">Seized &amp; surplus vehicles. Bid without getting burned.</span>
+            <span class="hc-free">↳ Free: Bidding Guide + Pre-Bid Checklist</span>
+          </span>
+          <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
+        </a>
+        <a class="hc-sub-link" data-track="path" data-card="cars-ebay" href="https://www.ebay.com/usr/motocity" target="_blank" rel="noopener">
+          <span class="hc-meta">
+            <span class="hc-title">Shop Parts, Tools &amp; MotoCity Gear</span>
+            <span class="hc-desc">Auto parts, tools, hats &amp; shirts. Ships fast.</span>
+          </span>
+          <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
+        </a>
+        <div class="hc-sub-link hc-disabled" aria-disabled="true">
+          <span class="hc-meta">
+            <span class="hc-title">Rental Car Income Tools</span>
+            <span class="hc-desc">Turo calculators, fleet spreadsheets &amp; rate trackers</span>
+            <span class="hc-soon">Coming soon</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 · AI & BUSINESS SYSTEMS -->
+    <div class="hc-group">
+      <button type="button" id="hc-door-systems" class="hc-door" aria-expanded="false" aria-controls="subs-systems" data-track="path" data-card="ai" data-pos="2">
+        <span class="hc-ico"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3"/><path d="M9 15h6M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></span>
+        <span class="hc-meta">
+          <span class="hc-title">AI &amp; Business Systems</span>
+          <span class="hc-desc">Smarter workflows, funnels that sell, and the templates behind them.</span>
+          <span class="hc-cta">Build with AI</span>
+        </span>
+        <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
+      <div class="hc-subs" id="subs-systems" role="region" aria-labelledby="hc-door-systems" hidden>
+        <a class="hc-sub-link" data-track="path" data-card="ai-funnel" href="https://moto-city.systeme.io/fix-my-funnel?ref=hubcity-funnel">
+          <span class="hc-meta">
+            <span class="hc-title">Fix My Funnel <span class="hc-pop">Free kit</span></span>
+            <span class="hc-desc">Systeme.io setup, funnel copy &amp; email sequences, done with you.</span>
+            <span class="hc-free">↳ Free: AI Business Launch Kit</span>
+          </span>
+          <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
+        </a>
+        <a class="hc-sub-link" data-track="path" data-card="ai-hulk" href="https://moto-city.systeme.io/ai?ref=hubcity-ai">
+          <span class="hc-meta">
+            <span class="hc-title">Build a Smarter AI System</span>
+            <span class="hc-desc">Run Claude, Kimi &amp; local models through one proxy.</span>
+            <span class="hc-free">↳ Free: HULK Proxy Setup Checklist</span>
+          </span>
+          <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
+        </a>
+        <a class="hc-sub-link" data-track="path" data-card="ai-etsy" href="https://www.etsy.com/shop/motocity" target="_blank" rel="noopener">
+          <span class="hc-meta">
+            <span class="hc-title">Download Planners &amp; Checklists</span>
+            <span class="hc-desc">Printable planners, car checklists &amp; productivity guides.</span>
+          </span>
+          <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
+        </a>
+        <a class="hc-sub-link" data-track="path" data-card="ai-mcp" href="https://mcpmarket.com" target="_blank" rel="noopener">
+          <span class="hc-meta">
+            <span class="hc-title">Find MCP Servers &amp; Agent Tools</span>
+            <span class="hc-desc">Directory for connecting AI models to real-world tools.</span>
+          </span>
+          <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
+        </a>
+        <div class="hc-sub-link hc-disabled" aria-disabled="true">
+          <span class="hc-meta">
+            <span class="hc-title">Mini-Courses &amp; Quick Wins</span>
+            <span class="hc-desc">Short trainings on AI tools &amp; revenue systems</span>
+            <span class="hc-soon">Coming soon</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 · MUSIC & DJ -->
+    <div class="hc-group">
+      <button type="button" id="hc-door-music" class="hc-door" aria-expanded="false" aria-controls="subs-music" data-track="path" data-card="music" data-pos="3">
+        <span class="hc-ico"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M3 14v-3a9 9 0 0118 0v3"/><rect x="2.5" y="12" width="4.5" height="8" rx="2"/><rect x="17" y="12" width="4.5" height="8" rx="2"/></svg></span>
+        <span class="hc-meta">
+          <span class="hc-title">Music &amp; DJ</span>
+          <span class="hc-desc">Book DJ SCRTCH1 or grab sound packs made for people who move the room.</span>
+          <span class="hc-cta">Explore music</span>
+        </span>
+        <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
+      <div class="hc-subs" id="subs-music" role="region" aria-labelledby="hc-door-music" hidden>
+        <a class="hc-sub-link" data-track="path" data-card="music-dj" href="https://moto-city.systeme.io/dj?ref=hubcity-dj">
+          <span class="hc-meta">
+            <span class="hc-title">Book the DJ</span>
+            <span class="hc-desc">Weddings, parties &amp; events. $100 deposit locks your date.</span>
+          </span>
+          <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
+        </a>
+        <a class="hc-sub-link" data-track="path" data-card="music-sound" href="https://moto-city.systeme.io/sound-arsenal?ref=hubcity-sound">
+          <span class="hc-meta">
+            <span class="hc-title">Get the Sound Pack</span>
+            <span class="hc-desc">Vintage audio, stems &amp; MIDI for your next production.</span>
+            <span class="hc-free">↳ Starter pack &amp; MIDI files inside</span>
+          </span>
+          <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
+        </a>
+        <a class="hc-sub-link" data-track="path" data-card="music-mix" href="https://soundcloud.com/cityfunkentertainment" target="_blank" rel="noopener">
+          <span class="hc-meta">
+            <span class="hc-title">Hear the Mix</span>
+            <span class="hc-desc">Latest sets on SoundCloud.</span>
+          </span>
+          <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- 4 · HOLISTIC LIVING -->
+    <div class="hc-group">
+      <button type="button" id="hc-door-health" class="hc-door" aria-expanded="false" aria-controls="subs-health" data-track="path" data-card="health" data-pos="4">
+        <span class="hc-ico"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M12 20c-5-2-7-6-7-10 5 0 8-3 8-6 4 3 6 7 4 11-1 3-3 5-5 5z"/><path d="M8 17c2-3 4-5 8-7"/></svg></span>
+        <span class="hc-meta">
+          <span class="hc-title">Holistic Living</span>
+          <span class="hc-desc">Practical wellness: frequencies, supplement recipes &amp; natural remedies.</span>
+          <span class="hc-cta">Explore wellness</span>
+        </span>
+        <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
+      <div class="hc-subs" id="subs-health" role="region" aria-labelledby="hc-door-health" hidden>
+        <a class="hc-sub-link" data-track="path" data-card="health-guide" href="https://moto-city.systeme.io/health?ref=hubcity-holistic">
+          <span class="hc-meta">
+            <span class="hc-title">Get the Wellness Starter Guide <span class="hc-pop">Free</span></span>
+            <span class="hc-desc">Energy stacks, frequency guides &amp; remedy protocols for creatives.</span>
+          </span>
+          <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /hc-doors -->
+
+  <!-- TOOLS I ACTUALLY USE (affiliates, below owned funnels) -->
+  <div class="hc-section-label">Tools I actually use</div>
+  <p class="hc-section-note">The software behind my funnels and content. Affiliate links: I may earn a commission at no extra cost to you.</p>
+
+  <a class="hc-aff hc-aff-sys" data-track="affiliate" data-card="systeme" href="https://systeme.io/?sa=sa0180716782ce4535d7f0b3ef221c7f646590fe91" target="_blank" rel="noopener sponsored">
+    <span class="hc-brand-logo systeme">systeme<span>.io</span></span>
+    <span class="hc-meta">
+      <span class="hc-title">Build My Funnel Free</span>
+      <span class="hc-desc">Runs this hub: funnels, email, courses &amp; affiliates. Free forever plan.</span>
+    </span>
+  </a>
+  <a class="hc-aff hc-aff-post" data-track="affiliate" data-card="postiz" href="https://postiz.com?ref=motocity" target="_blank" rel="noopener sponsored">
+    <span class="hc-brand-logo postiz">POSTIZ</span>
+    <span class="hc-meta">
+      <span class="hc-title">Auto-Post to Every Platform</span>
+      <span class="hc-desc">Open-source social scheduler I self-host. Or use their cloud.</span>
+    </span>
+  </a>
+
+  <!-- CONNECT -->
+  <div class="hc-section-label" style="text-align:center">Follow along</div>
+  <div class="hc-connect">
+    <a class="hc-soc-btn" href="https://www.youtube.com/@MotocityOfficial" target="_blank" rel="noopener">YouTube</a>
+    <a class="hc-soc-btn" href="https://www.instagram.com/natecarmoney" target="_blank" rel="noopener">Instagram</a>
+    <a class="hc-soc-btn" href="https://www.tiktok.com/@motor_city_funk" target="_blank" rel="noopener">TikTok</a>
+    <a class="hc-soc-btn" href="https://x.com/motocity" target="_blank" rel="noopener">X</a>
+    <a class="hc-soc-btn" href="https://www.threads.net/@natecarmoney" target="_blank" rel="noopener">Threads</a>
+    <a class="hc-soc-btn" href="https://www.facebook.com/motocity" target="_blank" rel="noopener">Facebook</a>
+    <a class="hc-soc-btn" href="https://discord.gg/motocity" target="_blank" rel="noopener">Discord</a>
+    <a class="hc-soc-btn" href="https://www.pinterest.com/motocity" target="_blank" rel="noopener">Pinterest</a>
+    <a class="hc-soc-btn" href="https://soundcloud.com/cityfunkentertainment" target="_blank" rel="noopener">SoundCloud</a>
+    <a class="hc-soc-btn" href="https://github.com/motocity" target="_blank" rel="noopener">GitHub</a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="hc-foot">
+    <span id="hc-phone-gate"><button type="button" class="hc-reveal">Reveal Consultant Line</button></span>
+    &middot; <a href="mailto:admin@motocity.autos">admin@motocity.autos</a>
+    <div class="hc-lgl">
+      <a href="https://www.motocity.autos/privacy-policy">Privacy</a>&middot;
+      <a href="https://www.motocity.autos/terms-of-service">Terms</a>&middot;
+      <a href="https://www.motocity.autos/affiliate-disclosure">Disclosure</a>
+    </div>
+    <div>© City Funk Entertainment</div>
+  </div>
+
+</div>
+</div>
+
+<script>
+(function(){
+  var root = document.querySelector('.hc-stage:not([data-hc-ready])');
+  if (!root) return;
+  root.setAttribute('data-hc-ready', '1');
+
+  /* 1. Carry source tags (?utm_*, ?src) from the social bio link into every funnel link */
+  var inbound = new URLSearchParams(location.search), carry = [];
+  inbound.forEach(function(v,k){ if (/^(utm_|src$|fbclid$|ttclid$)/.test(k)) carry.push([k,v]); });
+  if (carry.length) Array.prototype.forEach.call(root.querySelectorAll('a[href^="http"]'), function(a){
+    if (!/systeme\.io|motocity\.autos/.test(a.hostname) || a.hostname === 'systeme.io') return; // owned funnels only
+    try {
+      var u = new URL(a.href);
+      carry.forEach(function(p){ if (!u.searchParams.has(p[0])) u.searchParams.set(p[0], p[1]); });
+      a.href = u.toString();
+    } catch(e){}
+  });
+
+  /* 2. Click events → whichever analytics is present */
+  function track(name, props){
+    try { (window.dataLayer = window.dataLayer || []).push((function(o){ for (var k in props) o[k] = props[k]; return o; })({event:name})); } catch(e){}
+    try { if (window.gtag) gtag('event', name, props); } catch(e){}
+    try { if (window.fbq) fbq('trackCustom', name, props); } catch(e){}
+  }
+  var src = inbound.get('utm_source') || inbound.get('src') || 'direct';
+  root.addEventListener('click', function(e){
+    var el = e.target.closest ? e.target.closest('[data-track]') : null;
+    if (el) track(el.getAttribute('data-track') + '_click', {card: el.getAttribute('data-card'), position: el.getAttribute('data-pos') || '', source: src});
+  });
+
+  /* 3. Accordion: doors render closed, one open at a time, Esc closes */
+  var groups = Array.prototype.slice.call(root.querySelectorAll('.hc-group'));
+  function setOpen(g, open){
+    g.querySelector('.hc-door').setAttribute('aria-expanded', String(open));
+    g.querySelector('.hc-subs').hidden = !open;
+  }
+  groups.forEach(function(g){
+    var btn = g.querySelector('.hc-door');
+    btn.addEventListener('click', function(){
+      var isOpen = btn.getAttribute('aria-expanded') === 'true';
+      groups.forEach(function(o){ setOpen(o, o === g ? !isOpen : false); });
+    });
+    g.querySelector('.hc-subs').addEventListener('keydown', function(e){
+      if (e.key === 'Escape'){ setOpen(g, false); btn.focus(); }
+    });
+  });
+
+  /* 4. Phone reveal (no inline onclick) */
+  var gate = root.querySelector('#hc-phone-gate');
+  gate.querySelector('button').addEventListener('click', function(){
+    gate.innerHTML = '<a href="tel:+19095159838">909-515-9838</a>';
+  });
+})();
+</script>
+<!-- END HUBCITY v9 -->

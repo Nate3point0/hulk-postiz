@@ -32,22 +32,26 @@ for k, v in {"timelineResolutionWidth": "1080", "timelineResolutionHeight": "192
     proj.SetSetting(k, v)
 
 pool = proj.GetMediaPool()
-v, vo, mus = pool.ImportMedia([VIDEO, VO, MUSIC])
-tl = pool.CreateEmptyTimeline("NotDoneYet_9x16")
-proj.SetCurrentTimeline(tl)
-tl.AddTrack("audio", "stereo")
-tl.AddTrack("audio", "stereo")
-start = tl.GetStartFrame()
-pool.AppendToTimeline([{"mediaPoolItem": v, "trackIndex": 1, "mediaType": 1, "recordFrame": start}])  # video is silent
-pool.AppendToTimeline([{"mediaPoolItem": vo, "trackIndex": 1, "mediaType": 2, "recordFrame": start}])
-pool.AppendToTimeline([{"mediaPoolItem": mus, "trackIndex": 2, "mediaType": 2, "recordFrame": start}])
-for item in tl.GetItemListInTrack("audio", 2):
-    item.SetProperty("Volume", -20.0)
-
-for sec, color, name in SFX:
-    tl.AddMarker(int(sec * FPS), color, name, "Drop SFX on A3 here", 1)
-
-print("Timeline built. Sidechain-duck A2 under A1 in Fairlight, add SFX on A3 at markers.")
+existing = [proj.GetTimelineByIndex(i + 1) for i in range(proj.GetTimelineCount())]
+existing = [t for t in existing if t.GetName() == "NotDoneYet_9x16"]
+if existing:  # rerun (e.g. --render after editing): keep your edits, don't duplicate clips/markers
+    proj.SetCurrentTimeline(existing[0])
+    print("Timeline exists; leaving it as is.")
+else:
+    v, vo, mus = pool.ImportMedia([VIDEO, VO, MUSIC])
+    tl = pool.CreateEmptyTimeline("NotDoneYet_9x16")
+    proj.SetCurrentTimeline(tl)
+    tl.AddTrack("audio", "stereo")
+    tl.AddTrack("audio", "stereo")
+    start = tl.GetStartFrame()
+    pool.AppendToTimeline([{"mediaPoolItem": v, "trackIndex": 1, "mediaType": 1, "recordFrame": start}])  # video is silent
+    pool.AppendToTimeline([{"mediaPoolItem": vo, "trackIndex": 1, "mediaType": 2, "recordFrame": start}])
+    pool.AppendToTimeline([{"mediaPoolItem": mus, "trackIndex": 2, "mediaType": 2, "recordFrame": start}])
+    for item in tl.GetItemListInTrack("audio", 2):
+        item.SetProperty("Volume", -20.0)
+    for sec, color, name in SFX:
+        tl.AddMarker(int(sec * FPS), color, name, "Drop SFX on A3 here", 1)
+    print("Timeline built. Sidechain-duck A2 under A1 in Fairlight, add SFX on A3 at markers.")
 
 if "--render" in getattr(sys, "argv", []):
     proj.SetRenderSettings({"TargetDir": HERE, "CustomName": "kidney_not_done_yet_FINAL",

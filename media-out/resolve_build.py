@@ -11,9 +11,8 @@ V1 = video, A1 = voice-over, A2 = music bed (-20 dB), A3 = empty for your SFX.
 Markers on the timeline show where the whoosh, ding and pop sounds go.
 """
 import os, sys
-import DaVinciResolveScript as dvr
 
-HERE = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(os.path.abspath(__file__)) if "__file__" in globals() else os.path.expanduser("~/hulk-postiz/media-out")
 FPS = 30
 VIDEO, VO, MUSIC = (os.path.join(HERE, f) for f in
                     ("kidney_not_done_yet_9x16.mp4", "kidney_vo.wav", "kidney_music_bed.wav"))
@@ -21,7 +20,11 @@ SFX = ([(t, "Blue", "WHOOSH") for t in (4, 14, 30, 48, 57)]
        + [(14.8 + i * 2.4, "Green", f"DING {i + 1}") for i in range(6)]
        + [(t, "Yellow", "POP") for t in (38, 39.2, 40.4)])
 
-resolve = dvr.scriptapp("Resolve")
+if "resolve" not in globals():  # Studio: run from Terminal. Free: Workspace > Scripts injects `resolve`.
+    import DaVinciResolveScript as dvr
+    resolve = dvr.scriptapp("Resolve")
+if resolve is None:
+    sys.exit("Resolve not reachable. On Resolve Free, run this from Workspace > Scripts instead of Terminal.")
 pm = resolve.GetProjectManager()
 proj = pm.CreateProject("Kidney_NotDoneYet") or pm.LoadProject("Kidney_NotDoneYet")
 for k, v in {"timelineResolutionWidth": "1080", "timelineResolutionHeight": "1920",
@@ -46,7 +49,7 @@ for sec, color, name in SFX:
 
 print("Timeline built. Sidechain-duck A2 under A1 in Fairlight, add SFX on A3 at markers.")
 
-if "--render" in sys.argv:
+if "--render" in getattr(sys, "argv", []):
     proj.SetRenderSettings({"TargetDir": HERE, "CustomName": "kidney_not_done_yet_FINAL",
                             "FormatWidth": 1080, "FormatHeight": 1920, "FrameRate": FPS})
     proj.SetCurrentRenderFormatAndCodec("mp4", "H264")

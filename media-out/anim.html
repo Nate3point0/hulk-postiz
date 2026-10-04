@@ -1,0 +1,114 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#111}canvas{display:block}</style></head>
+<body><canvas id="c" width="1080" height="1920"></canvas><script>
+const c=document.getElementById('c'),x=c.getContext('2d'),W=1080,H=1920;
+const C={cream:'#FFF4E4',peach:'#FFD9B0',warm:'#FF9F5A',coral:'#F2665A',teal:'#2BA8A0',deep:'#1F3B4D',ink:'#22303A',sky:'#BFE6F0',grass:'#8CCB7A',skin:'#C98B62',shirt:'#3E7CB1',kid:'#C8505A',gold:'#FFC94A'};
+const cl=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const ease=t=>{t=cl(t);return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+const back=t=>{t=cl(t);const s=1.7;return 1+(s+1)*Math.pow(t-1,3)+s*Math.pow(t-1,2)};
+const seg=(t,a,b)=>cl((t-a)/(b-a));
+function rr(X,Y,w,h,r,f){x.beginPath();x.roundRect(X,Y,w,h,r);x.fillStyle=f;x.fill()}
+function circ(X,Y,r,f){x.beginPath();x.arc(X,Y,r,0,7);x.fillStyle=f;x.fill()}
+function wrap(s,maxW){const w=s.split(' '),L=[];let l='';for(const q of w){const t=l?l+' '+q:q;if(x.measureText(t).width>maxW&&l){L.push(l);l=q}else l=t}L.push(l);return L}
+// caption: pop-in bold text block
+function cap(s,t0,t1,t,y,size=72,col=C.ink,bg='rgba(255,255,255,.92)'){
+  if(t<t0||t>t1)return;const a=seg(t,t0,t0+.35),o=1-seg(t,t1-.3,t1);const k=back(a);
+  x.save();x.globalAlpha=Math.min(a*2,o,1);x.font=`800 ${size}px "Poppins","Arial Black",Arial,sans-serif`;x.textAlign='center';x.textBaseline='middle';
+  const L=wrap(s,W-200),lh=size*1.18,h=L.length*lh+60;let mw=0;L.forEach(l=>mw=Math.max(mw,x.measureText(l).width));
+  x.translate(W/2,y);x.scale(.85+.15*k,.85+.15*k);rr(-mw/2-45,-h/2,mw+90,h,40,bg);
+  x.fillStyle=col;L.forEach((l,i)=>x.fillText(l,0,-h/2+30+lh*(i+.5)));x.restore()}
+function bgGrad(a,b){const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,a);g.addColorStop(1,b);x.fillStyle=g;x.fillRect(0,0,W,H)}
+// character
+function person(X,Y,s,o={}){const {pose='stand',walk=0,tired=0,smile=.5,shirt=C.shirt,skin=C.skin,hair='#2A1E18',arm=0}=o;
+  x.save();x.translate(X,Y);x.scale(s,s);const sw=Math.sin(walk)*0.5;
+  x.lineCap='round';x.strokeStyle='#2E3A46';x.lineWidth=26;
+  if(pose==='sit'){x.beginPath();x.moveTo(-20,0);x.lineTo(70,0);x.lineTo(70,110);x.moveTo(20,0);x.lineTo(110,0);x.lineTo(110,110);x.stroke()}
+  else{x.beginPath();x.moveTo(-15,0);x.lineTo(-15+Math.sin(sw)*60,170);x.moveTo(15,0);x.lineTo(15-Math.sin(sw)*60,170);x.stroke();
+    rr(-15+Math.sin(sw)*60-25,160,55,22,10,'#fff');rr(15-Math.sin(sw)*60-25,160,55,22,10,'#fff')}
+  const lean=tired*12;x.rotate(lean*Math.PI/180*(pose==='sit'?1:.3));
+  rr(-55,-190,110,200,45,shirt);
+  x.strokeStyle=skin;x.lineWidth=22;x.beginPath();
+  if(arm){x.moveTo(-45,-160);x.lineTo(-90,-80);x.moveTo(45,-160);x.lineTo(95+Math.sin(arm)*10,-230-Math.sin(arm)*20)}
+  else{x.moveTo(-45,-160);x.lineTo(-60-Math.sin(sw)*40,-50);x.moveTo(45,-160);x.lineTo(60+Math.sin(sw)*40,-50)}x.stroke();
+  const hy=-255+tired*15;circ(0,hy,68,skin);x.beginPath();x.arc(0,hy-10,70,Math.PI*1.05,Math.PI*1.95);x.fillStyle=hair;x.fill();
+  // eyes
+  x.fillStyle=C.ink;if(tired>.5){x.fillRect(-30,hy,20,6);x.fillRect(10,hy,20,6)}else{circ(-20,hy,7,C.ink);circ(20,hy,7,C.ink)}
+  x.strokeStyle=C.ink;x.lineWidth=5;x.beginPath();x.arc(0,hy+18+(smile<.5?14:0),18,smile<.5?Math.PI*1.2:Math.PI*.2,smile<.5?Math.PI*1.8:Math.PI*.8);x.stroke();
+  circ(-38,hy+22,10,'rgba(242,102,90,.35)');circ(38,hy+22,10,'rgba(242,102,90,.35)');x.restore()}
+function kidney(X,Y,s,flip,col){x.save();x.translate(X,Y);x.scale(flip?-s:s,s);x.beginPath();
+  x.moveTo(0,-150);x.bezierCurveTo(130,-160,150,0,120,90);x.bezierCurveTo(90,170,-20,170,-40,90);x.bezierCurveTo(-55,40,10,40,10,0);x.bezierCurveTo(10,-40,-60,-40,-60,-80);x.bezierCurveTo(-60,-130,-30,-150,0,-150);
+  x.fillStyle=col;x.fill();x.lineWidth=10;x.strokeStyle='rgba(0,0,0,.15)';x.stroke();x.restore()}
+function worker(X,Y,s,bob,tired){x.save();x.translate(X,Y+Math.sin(bob)*8*(1-tired));x.scale(s,s);circ(0,0,22,C.gold);rr(-22,-34,44,14,6,'#FF8A00');
+  x.fillStyle=C.ink;circ(-7,2,3.5,C.ink);circ(7,2,3.5,C.ink);x.restore()}
+function scene1(t){bgGrad('#FFE3C2','#FFB98A');const sun=ease(seg(t,0,4));
+  circ(880,300+(1-sun)*120,140,'rgba(255,240,180,.8)');rr(120,300,300,380,20,'#BFE6F0');x.fillStyle='#fff';x.fillRect(262,300,16,380);x.fillRect(120,482,300,16);
+  rr(80,1250,920,150,40,'#fff');rr(80,1350,920,200,30,'#9AB7D3');rr(80,1150,220,140,40,'#fff');
+  const br=Math.sin(t*2)*4;person(560,1260+br,1.4,{pose:'sit',tired:1,smile:0.2});
+  cap('“Doctor said dialysis might be next…”',.2,2.3,t,1700,64);
+  cap('This is NOT the end of your story.',2.2,4.1,t,1700,74,'#fff',C.coral)}
+function scene2(t){const lt=t-4;bgGrad('#1F3B4D','#2C5A70');const slow=ease(seg(lt,3,7));
+  // flow
+  for(let i=0;i<40;i++){const sp=(1-slow*.7);const p=((lt*120*sp+i*97)%1400);const yy=380+p;const xx=W/2+Math.sin(i*1.7+p*.01)*380;
+    circ(xx,yy,i%3?10:16,i%4?'rgba(255,200,120,.5)':'rgba(200,80,90,.8)')}
+  const pul=1+Math.sin(lt*6*(1-slow*.7))*.03;kidney(330,860,1.35*pul,false,C.kid);kidney(750,860,1.35*pul,true,C.kid);
+  for(let i=0;i<3;i++){worker(270+i*55,820+i*40,1.2,lt*8+i,slow);worker(810-i*55,820+i*40,1.2,lt*8+i+1,slow)}
+  if(slow>.6){x.globalAlpha=slow;x.font='700 60px Arial';x.fillStyle='#fff';x.fillText('z',360,640-Math.sin(lt*3)*10);x.fillText('z',720,620+Math.sin(lt*3)*10);x.globalAlpha=1}
+  // icons row
+  const ic=['🩸 Make red blood cells','💓 Help control BP','🧹 Clean waste'];x.font='600 44px Arial';x.textAlign='center';
+  ic.forEach((s,i)=>{const a=seg(lt,.5+i*.5,1+i*.5);x.globalAlpha=a;rr(140,1200+i*95,800,78,39,'rgba(255,255,255,.14)');x.fillStyle='#fff';x.fillText(s,W/2,1255+i*95)});x.globalAlpha=1;
+  cap('Your kidneys do MORE than filter.',.2,3.5,lt,220,64);
+  cap('When they slow down, energy drops.',3.5,7,lt,220,64);
+  cap('It’s not your fault. Tired filters work slower.',7,10.1,lt,220,60,'#fff',C.teal);
+  // battery
+  const bl=1-slow*.65;rr(380,1540,320,140,24,'rgba(255,255,255,.2)');rr(700,1585,26,50,8,'rgba(255,255,255,.2)');rr(395,1555,290*bl,110,16,bl>.5?C.grass:C.warm);
+  x.font='700 40px Arial';x.fillStyle='#fff';x.fillText('ENERGY',540,1740)}
+const items=['Blood pressure on target','Sodium under 2,300 mg/day','Move every day','Kidney dietitian, YOUR labs','Meds exactly as prescribed','Avoid NSAID painkillers'];
+function scene3(t){const lt=t-14;bgGrad('#FFF4E4','#FFE0BF');cap('6 levers that STILL move the needle',0,16,lt,190,62,'#fff',C.deep);
+  const per=2.4;items.forEach((s,i)=>{const a=seg(lt,.8+i*per,1.2+i*per),on=a>0;const y=420+i*170;
+    x.save();x.globalAlpha=.35+.65*a;rr(90,y,900,140,30,on?'#fff':'rgba(255,255,255,.6)');
+    rr(115,y+25,90,90,22,on?C.teal:'#ddd');if(on){x.strokeStyle='#fff';x.lineWidth=14;x.lineCap='round';x.beginPath();x.moveTo(135,y+70);x.lineTo(155+10*a,y+90);x.lineTo(155+35*a,y+45);x.stroke()}
+    x.font='700 50px Arial';x.textAlign='left';x.fillStyle=C.ink;x.fillText(s,235,y+88);x.restore()});
+  // gauge for BP
+  const ga=seg(lt,.8,3.2);if(lt<3.6){x.save();x.globalAlpha=ga;const gx=W/2,gy=1700;x.lineWidth=40;
+    [[C.grass,Math.PI,Math.PI*1.4],[C.gold,Math.PI*1.4,Math.PI*1.65],[C.coral,Math.PI*1.65,Math.PI*2]].forEach(([col,a,b])=>{x.strokeStyle=col;x.beginPath();x.arc(gx,gy,180,a,b);x.stroke()});
+    const ang=Math.PI*1.85-ease(seg(lt,1.2,3))*Math.PI*.6;x.strokeStyle=C.ink;x.lineWidth=12;x.beginPath();x.moveTo(gx,gy);x.lineTo(gx+Math.cos(ang)*150,gy+Math.sin(ang)*150);x.stroke();circ(gx,gy,20,C.ink);
+    x.font='800 44px Arial';x.textAlign='center';x.fillStyle=C.ink;x.fillText('#1 LEVER',gx,gy+80);x.restore()}
+  else{person(W/2,1820,.9,{walk:lt*5,smile:.7})}}
+function scene4(t){const lt=t-30;bgGrad('#BFE6F0','#FFF4E4');circ(850,260,110,'#FFE38A');
+  const sc=lt*120;x.fillStyle=C.grass;x.fillRect(0,1350,W,570);
+  for(let i=0;i<6;i++){const tx=((i*260-sc)%1560+1560)%1560-240;rr(tx+40,1100,40,260,10,'#7A5A3A');circ(tx+60,1060,110,'#5FAE6A')}
+  x.fillStyle='#E9D8B8';x.fillRect(0,1450,W,120);
+  const e=ease(seg(lt,0,10));person(420,1460,1.1,{walk:lt*6,tired:1-e,smile:.3+e*.6});
+  // supporters
+  const sup=[['#E86A92','Dr'],['#6BBF59','RD'],['#9B6BD6','Fam']];sup.forEach(([col,l],i)=>{const a=back(seg(lt,8+i*1.2,9+i*1.2));if(a<=0)return;
+    x.save();x.globalAlpha=cl(a);person(640+i*150,1460,.75*a,{walk:lt*6+i,shirt:col,smile:.9,skin:['#E0AC82','#8A5A3C','#F1C9A0'][i]});x.font='700 34px Arial';x.textAlign='center';x.fillStyle=C.ink;x.fillText(l,640+i*150,1520);x.restore()});
+  // calendar
+  const cs=seg(lt,3,17);rr(640,430,330,330,30,'#fff');rr(640,430,330,80,30,C.coral);x.font='800 40px Arial';x.textAlign='center';x.fillStyle='#fff';
+  const m=['JAN','FEB','MAR','APR','MAY','JUN'][Math.min(5,Math.floor(cs*6))];x.fillText(m,805,485);
+  // slope line flattening
+  x.strokeStyle=C.teal;x.lineWidth=10;x.beginPath();for(let k=0;k<=40;k++){const u=k/40;if(u>cs+.02)break;const yy=560+u*130*(1-u*.7);k?x.lineTo(670+u*270,yy):x.moveTo(670,yy)}x.stroke();
+  x.font='600 28px Arial';x.fillStyle=C.ink;x.fillText('decline slowing',805,740);
+  cap('Can it all go back to perfect? Usually not.',0,4,lt,230,58);
+  cap('But decline CAN slow down.',4,8,lt,230,66,'#fff',C.teal);
+  cap('Delay dialysis — or start it STRONGER.',8,12.5,lt,230,58);
+  cap('Many live full lives on the transplant list.',12.5,15.5,lt,230,56);
+  cap('“I still have levers. I’m pulling every one.”',15.5,18.1,lt,1720,56,'#fff',C.deep)}
+function scene5(t){const lt=t-48;bgGrad('#FF9F5A','#F2665A');
+  for(let i=0;i<14;i++){const a=i/14*Math.PI*2+lt*.2;x.fillStyle='rgba(255,255,255,.08)';x.beginPath();x.moveTo(W/2,1050);x.arc(W/2,1050,1400,a,a+.12);x.fill()}
+  person(W/2,1360,1.5,{smile:1,arm:lt*3,shirt:C.deep});rr(W/2+100,920,60,90,12,'rgba(200,240,255,.9)');
+  const L=['📅 Book the next appointment','🥗 Ask for the renal dietitian','🩺 Track your blood pressure','👟 Take the walk'];
+  x.font='700 46px Arial';x.textAlign='center';L.forEach((s,i)=>{const a=back(seg(lt,.3+i*.9,.8+i*.9));if(a<=0)return;x.save();x.globalAlpha=cl(a);rr(110,1480+i*92,860,76,38,'#fff');x.fillStyle=C.ink;x.fillText(s,W/2,1533+i*92);x.restore()});
+  cap('START TODAY.',0,3.6,lt,230,96,'#fff',C.deep);
+  cap('You are NOT powerless.',3.6,6.4,lt,230,80,C.deep);
+  cap('Tag someone who needs this 💛',6.4,9.1,lt,230,64,'#fff',C.deep)}
+function scene6(t){const lt=t-57;bgGrad('#1F3B4D','#14262F');const a=ease(seg(lt,0,.6));x.globalAlpha=a;
+  kidney(470,700,.7,false,C.kid);kidney(610,700,.7,true,C.kid);x.font='800 92px Arial';x.textAlign='center';x.fillStyle='#fff';x.fillText('You’re Not',W/2,1000);x.fillStyle=C.gold;x.fillText('Done Yet.',W/2,1110);
+  x.font='500 40px Arial';x.fillStyle='rgba(255,255,255,.8)';['Informational only. Not medical advice.','Always follow your nephrologist’s plan.'].forEach((s,i)=>x.fillText(s,W/2,1320+i*60));
+  x.font='700 46px Arial';x.fillStyle=C.teal;x.fillText('#KidneyHope  #CKDJourney',W/2,1520);x.globalAlpha=1}
+function draw(t){x.clearRect(0,0,W,H);x.textAlign='center';x.textBaseline='alphabetic';
+  if(t<4)scene1(t);else if(t<14)scene2(t);else if(t<30)scene3(t);else if(t<48)scene4(t);else if(t<57)scene5(t);else scene6(t);
+  // transition flash
+  for(const b of [4,14,30,48,57]){const d=Math.abs(t-b);if(d<.25){x.fillStyle=`rgba(255,250,240,${1-d/.25})`;x.fillRect(0,0,W,H)}}
+  // progress bar
+  rr(0,H-14,W*(t/61),14,0,C.gold)}
+window.draw=draw;draw(0);
+</script></body></html>

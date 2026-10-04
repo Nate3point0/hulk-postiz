@@ -98,3 +98,14 @@ Works with: `hulk-music-factory` · `ComfyUI FLUX` · `ffmpeg` · `Metricool` ·
 **License:** Personal use. Not for redistribution.  
 **Support:** Open an issue on this repo.  
 **Built by:** [Nate3point0](https://github.com/Nate3point0) / HULKCLAW Digital
+
+## Video pipeline (`media-out/pipeline.sh`)
+
+`render.js` (Playwright → silent MP4) → ffmpeg mix (VO + ducked music, -14 LUFS) → optional DaVinci Resolve polish (M4, Studio) → Postiz upload.
+
+```
+./media-out/pipeline.sh                    # render + mix (headless, Hulk or M4)
+./media-out/pipeline.sh --skip-render      # mix only
+./media-out/pipeline.sh --skip-render --resolve   # + build Resolve timeline with SFX markers
+POSTIZ_API_KEY=... ./media-out/pipeline.sh --upload-only   # upload <NAME>_FINAL.mp4 as-is
+```

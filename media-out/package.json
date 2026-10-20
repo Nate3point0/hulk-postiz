@@ -1,0 +1,7 @@
+{
+  "name": "hulk-postiz-media-out",
+  "private": true,
+  "description": "Headless renderer for anim.html -> 9x16 MP4",
+  "scripts": { "render": "node render.js" },
+  "dependencies": { "playwright": "1.48.2" }
+}

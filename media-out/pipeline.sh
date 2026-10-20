@@ -21,14 +21,17 @@ for a in "$@"; do case $a in
   --upload-only) RENDER=0 MIX=0 UPLOAD=1 ;;
   *) echo "unknown flag: $a" >&2; exit 2 ;; esac; done
 
-if [ $RENDER = 1 ]; then node render.js; fi
+if [ $RENDER = 1 ]; then
+  [ -d node_modules/playwright ] || { npm install --no-audit --no-fund && npx playwright install chromium; }
+  node render.js
+fi
 
 if [ $MIX = 1 ]; then
 # Voice at full level, music -20 dB and sidechain-ducked under the voice, loudness-normalised for social.
 ffmpeg -y -loglevel error -i "$SILENT" -i "$VO" -i "$MUSIC" -filter_complex \
   "[2:a]volume=-20dB[m];[1:a]asplit[v1][v2];[m][v2]sidechaincompress=threshold=0.03:ratio=8:attack=20:release=400[d];\
 [v1][d]amix=inputs=2:duration=first:normalize=0,loudnorm=I=-14:TP=-1[a]" \
-  -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -shortest -movflags +faststart "$FINAL"
+  -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -ar 48000 -shortest -movflags +faststart "$FINAL"
 echo "Mixed -> media-out/$FINAL"
 fi
 

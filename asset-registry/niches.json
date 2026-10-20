@@ -1,11 +1,14 @@
 {
   "_comment": "Edit keywords/funnel URLs to match your ecosystem. First keyword hit wins (order matters); unmatched -> default_niche. Keywords match whole words, plural s allowed.",
   "niches": {
-    "music-production": {"keywords": ["music","beat","dj","studio","vinyl","mixer","speaker","headphone","sample","audio","synth","turntable"],
+    "music-production": {"keywords": ["music","beat","dj","studio","vinyl","mixer","speaker","headphone","sample","audio","synth","turntable",
+                                      "sound","sound-packs","sound-campaign","concert","metronome","song","producer","drum","bass","loop","melody","microphone","recording","playlist","festival"],
                          "funnel": "hulk-music-factory sample packs", "funnel_url": "https://moto-city.systeme.io/"},
     "motocity-ai-tools": {"keywords": ["ai","robot","tech","neon","cyber","laptop","code","dashboard","screen","hulk","automation","digital"],
                           "funnel": "MotoCity AI tools hub", "funnel_url": "https://moto-city.systeme.io/"},
-    "merch-pod":        {"keywords": ["shirt","t-shirt","tee","hoodie","mug","sticker","poster","print","pattern","logo","mockup","merch","product"],
+    "printables":       {"keywords": ["coloring","colouring","coloring-pages","colorbook","coloring page","printable","worksheet","planner","journal","workbook","activity","activity sheet","wall art","tracing"],
+                         "funnel": "Printables / coloring books (Etsy, KDP, Gumroad)", "funnel_url": ""},
+    "merch-pod":       {"keywords": ["shirt","t-shirt","tee","hoodie","mug","sticker","poster","print","pattern","logo","mockup","merch","product"],
                          "funnel": "Redbubble/Printify merch", "funnel_url": ""},
     "automotive":       {"keywords": ["car","cars","auto","automotive","auction","dealer","supercar","motorcycle","moto","vehicle","truck","garage","detailing","flip","flipper","racing"],
                          "funnel": "MotoCity cars funnel", "funnel_url": "https://moto-city.systeme.io/cars"},

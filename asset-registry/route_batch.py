@@ -57,10 +57,13 @@ def lanes_for(w, h, text, transparent):
     return sorted(out or {"social"})
 
 def niche_for(text, cfg):
+    """First keyword hit wins, unless a later niche that also hits lists the winner in its "beats"."""
     t = text.lower()
-    for name, n in cfg["niches"].items():
-        if any(word(k).search(t) for k in n["keywords"]): return name
-    return cfg["default_niche"]
+    hits = [name for name, n in cfg["niches"].items() if any(word(k).search(t) for k in n["keywords"])]
+    if not hits: return cfg["default_niche"]
+    for name in hits[1:]:
+        if hits[0] in cfg["niches"][name].get("beats", []): return name
+    return hits[0]
 
 def rel_key(path, src):
     """Path relative to the batch root, so inventory rows match files on any mount point."""

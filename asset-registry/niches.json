@@ -1,5 +1,5 @@
 {
-  "_comment": "Edit keywords/funnel URLs to match your ecosystem. First keyword hit wins (order matters); unmatched -> default_niche. Keywords match whole words, plural s allowed.",
+  "_comment": "Edit keywords/funnel URLs to match your ecosystem. First keyword hit wins (order matters); unmatched -> default_niche. Keywords match whole words, plural s allowed. Optional \"beats\": [niche] lets a later niche win when both match.",
   "niches": {
     "music-production": {"keywords": ["music","beat","dj","studio","vinyl","mixer","speaker","headphone","sample","audio","synth","turntable",
                                       "sound","sound-packs","sound-campaign","concert","metronome","song","producer","drum","bass","loop","melody","microphone","recording","playlist","festival"],
@@ -10,7 +10,8 @@
                          "funnel": "Printables / coloring books (Etsy, KDP, Gumroad)", "funnel_url": ""},
     "merch-pod":       {"keywords": ["shirt","t-shirt","tee","hoodie","mug","sticker","poster","print","pattern","logo","mockup","merch","product"],
                          "funnel": "Redbubble/Printify merch", "funnel_url": ""},
-    "automotive":       {"keywords": ["car","cars","auto","automotive","auction","dealer","supercar","motorcycle","moto","vehicle","truck","garage","detailing","flip","flipper","racing"],
+    "automotive":       {"keywords": ["car","cars","auto","automotive","auction","dealer","supercar","motorcycle","moto","vehicle","truck","garage","detailing","flipper","racing"],
+                         "beats": ["music-production"],
                          "funnel": "MotoCity cars funnel", "funnel_url": "https://moto-city.systeme.io/cars"},
     "seasonal":         {"keywords": ["christmas","xmas","holiday","halloween","spooky","pumpkin","thanksgiving","fall","autumn","winter","valentine","easter","seasonal","new year","party"],
                          "funnel": "Seasonal drops (merch + promos)", "funnel_url": ""},

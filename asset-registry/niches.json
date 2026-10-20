@@ -1,13 +1,17 @@
 {
-  "_comment": "Edit keywords/funnel URLs to match your ecosystem. First keyword hit wins; unmatched -> general.",
+  "_comment": "Edit keywords/funnel URLs to match your ecosystem. First keyword hit wins (order matters); unmatched -> default_niche. Keywords match whole words, plural s allowed.",
   "niches": {
-    "music-production": {"keywords": ["music","beat","dj","studio","vinyl","mixer","speaker","headphone","sample","mixboard","audio","synth","turntable"],
+    "music-production": {"keywords": ["music","beat","dj","studio","vinyl","mixer","speaker","headphone","sample","audio","synth","turntable"],
                          "funnel": "hulk-music-factory sample packs", "funnel_url": "https://moto-city.systeme.io/"},
-    "motocity-ai-tools": {"keywords": ["ai","robot","tech","neon","cyber","laptop","code","dashboard","screen","hulk"],
+    "motocity-ai-tools": {"keywords": ["ai","robot","tech","neon","cyber","laptop","code","dashboard","screen","hulk","automation","digital"],
                           "funnel": "MotoCity AI tools hub", "funnel_url": "https://moto-city.systeme.io/"},
-    "merch-pod":        {"keywords": ["shirt","tee","hoodie","mug","sticker","poster","print","pattern","logo","mockup","merch","product"],
+    "merch-pod":        {"keywords": ["shirt","t-shirt","tee","hoodie","mug","sticker","poster","print","pattern","logo","mockup","merch","product"],
                          "funnel": "Redbubble/Printify merch", "funnel_url": ""},
-    "lifestyle-brand":  {"keywords": ["city","street","urban","car","moto","night","portrait","fashion","lifestyle","background","texture"],
+    "automotive":       {"keywords": ["car","cars","auto","automotive","auction","dealer","supercar","motorcycle","moto","vehicle","truck","garage","detailing","flip","flipper","racing"],
+                         "funnel": "MotoCity cars funnel", "funnel_url": "https://moto-city.systeme.io/cars"},
+    "seasonal":         {"keywords": ["christmas","xmas","holiday","halloween","spooky","pumpkin","thanksgiving","fall","autumn","winter","valentine","easter","seasonal","new year","party"],
+                         "funnel": "Seasonal drops (merch + promos)", "funnel_url": ""},
+    "lifestyle-brand":  {"keywords": ["city","street","urban","night","portrait","fashion","lifestyle","background","texture"],
                          "funnel": "CityFunk brand / lead magnet", "funnel_url": "https://moto-city.systeme.io/"}
   },
   "default_niche": "lifestyle-brand"

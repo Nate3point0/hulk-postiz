@@ -1,16 +1,16 @@
-<!-- ════════════════════════════════════════════════════════════
-  HUBCITY v9 — "Pick what you came for"
+<!-- ============================================================
+  HUBCITY v9 - "Pick what you came for"
   Systeme.io Raw HTML Block | Copy-paste ready
   Changes vs v8 (per 2026-09-25 conversion audit):
    - One identity line, plain-language hero, trust cue
-   - 5 doors → 4 outcome paths (Shop split into Cars / AI)
+   - 5 doors -> 4 outcome paths (Shop split into Cars / AI)
    - Bookings compressed to a 3-up strip that stays above the fold on mobile
    - Every card has ONE action-named button
    - Affiliates stay below owned funnels, disclosure beside them
    - Source tags (utm_* / src) carried into every funnel link
-   - path_click / book_click events → dataLayer, gtag, fbq if present
+   - path_click / book_click events -> dataLayer, gtag, fbq if present
   All v8 destination URLs preserved. Doors still render closed.
-  ════════════════════════════════════════════════════════════ -->
+  ============================================================ -->
 
 <style>
 .hc-stage,.hc-stage *{box-sizing:border-box}
@@ -23,7 +23,7 @@
 .hc-stage h1,.hc-stage h2,.hc-stage p{margin:0}
 .hc-stage .hc-inner{width:100%;max-width:640px;margin:auto}
 
-/* ── HEADER (compact, <72px) ── */
+/* -- HEADER (compact, <72px) -- */
 .hc-stage .hc-head{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:18px}
 .hc-stage .hc-logo{font-family:"Arial Black","Helvetica Neue",system-ui,sans-serif;font-size:30px;font-weight:900;letter-spacing:-.07em;line-height:1;white-space:nowrap}
 .hc-stage .hc-logo b{font-weight:900;background:linear-gradient(150deg,#fff0bf 5%,#e5c987 45%,#ad8546 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#e5c987}
@@ -31,13 +31,13 @@
 .hc-stage .hc-who span{display:block;color:var(--hc-gold)}
 @media(forced-colors:active){.hc-stage .hc-logo b{background:none;-webkit-text-fill-color:CanvasText}}
 
-/* ── HERO ── */
+/* -- HERO -- */
 .hc-stage .hc-hero{text-align:center;margin-bottom:16px}
 .hc-stage .hc-hero h1{font-size:clamp(1.7rem,7vw,2.3rem);font-weight:850;letter-spacing:-.035em;line-height:1.1;margin-bottom:8px}
 .hc-stage .hc-hero p{font-size:14px;color:var(--hc-muted);max-width:440px;margin:0 auto}
 .hc-stage .hc-trust{display:inline-block;margin-top:10px;font-size:11.5px;font-weight:700;color:var(--hc-gold);letter-spacing:.02em}
 
-/* ── BOOKING STRIP (money row) ── */
+/* -- BOOKING STRIP (money row) -- */
 .hc-stage .hc-book-label{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#bbb7ac;margin:0 0 8px;text-align:center}
 .hc-stage .hc-book{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:20px}
 .hc-stage .hc-bk{
@@ -51,7 +51,7 @@
 .hc-stage .hc-bk-t{font-size:12.5px;font-weight:850;line-height:1.2}
 .hc-stage .hc-bk-n{font-size:10px;color:var(--hc-muted);line-height:1.3}
 
-/* ── 4 PATHS ── */
+/* -- 4 PATHS -- */
 .hc-stage .hc-doors{display:grid;gap:10px}
 .hc-stage .hc-group:nth-child(1){--accent:#7dd3fc;--tint:#192a33}
 .hc-stage .hc-group:nth-child(2){--accent:#a78bfa;--tint:#242032}
@@ -90,7 +90,7 @@
 .hc-stage .hc-disabled{opacity:.7;cursor:default;border-style:dashed}
 .hc-stage .hc-soon{display:inline-flex;margin-top:6px;padding:3px 8px;border-radius:999px;background:#292b31;color:#d4d7dd;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
 
-/* ── TOOLS (affiliates) ── */
+/* -- TOOLS (affiliates) -- */
 .hc-stage .hc-section-label{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#bbb7ac;margin:28px 0 6px}
 .hc-stage .hc-section-note{font-size:12px;color:var(--hc-muted);margin-bottom:4px}
 .hc-stage .hc-aff{margin-top:10px;background:#171819}
@@ -104,12 +104,12 @@
 .hc-stage .hc-aff-post .hc-title{color:#818cf8}
 .hc-stage .hc-aff:hover{border-color:var(--accent)}
 
-/* ── SOCIAL ── */
+/* -- SOCIAL -- */
 .hc-stage .hc-connect{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .hc-stage .hc-soc-btn{display:inline-flex;align-items:center;min-height:44px;padding:10px 13px;border:1px solid #3c3b37;border-radius:10px;color:#d1cec6;font-size:12px;text-decoration:none}
 .hc-stage .hc-soc-btn:hover{border-color:var(--hc-gold)}
 
-/* ── FOOTER ── */
+/* -- FOOTER -- */
 .hc-stage .hc-foot{border-top:1px solid #35332d;padding-top:18px;margin-top:22px;text-align:center;font-size:12px;line-height:1.8;color:var(--hc-muted)}
 .hc-stage .hc-foot a{color:var(--hc-gold)}
 .hc-stage .hc-reveal{min-height:44px;background:rgba(197,160,90,.12);border:1px solid rgba(197,160,90,.35);color:var(--hc-gold);padding:5px 14px;border-radius:999px;font-family:inherit;font-size:11px;font-weight:600;line-height:1;cursor:pointer}
@@ -140,7 +140,7 @@
   <div class="hc-hero">
     <h1>Pick what you came for.</h1>
     <p>Cars, AI &amp; business systems, music, and wellness. Choose your lane and I'll take you straight to the right resource.</p>
-    <span class="hc-trust">Real tools · Practical game · No runaround</span>
+    <span class="hc-trust">Real tools &middot; Practical game &middot; No runaround</span>
   </div>
 
   <!-- BOOKINGS: direct revenue, one tap -->
@@ -163,23 +163,23 @@
   <!-- 4 PATHS -->
   <div class="hc-doors">
 
-    <!-- 1 · CARS & OPPORTUNITIES -->
+    <!-- 1 - CARS & OPPORTUNITIES -->
     <div class="hc-group">
       <button type="button" id="hc-door-cars" class="hc-door" aria-expanded="false" aria-controls="subs-cars" data-track="path" data-card="cars" data-pos="1">
         <span class="hc-ico"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M3 16v-4l2-4h10l3 4v4H3zM6 16v3M15 16v3M5 12h12"/></svg></span>
         <span class="hc-meta">
           <span class="hc-title">Cars &amp; Opportunities</span>
-          <span class="hc-desc">Know what it's worth, find auction deals, shop parts &amp; gear.</span>
+          <span class="hc-desc">Buy smarter, find auction deals, shop parts &amp; gear.</span>
           <span class="hc-cta">Explore cars</span>
         </span>
         <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
       </button>
       <div class="hc-subs" id="subs-cars" role="region" aria-labelledby="hc-door-cars" hidden>
-        <a class="hc-sub-link" data-track="path" data-card="cars-valuation" href="https://moto-city.systeme.io/cars?ref=hubcity-valuation">
+        <a class="hc-sub-link" data-track="path" data-card="cars-guide" href="https://moto-city.systeme.io/cars?ref=hubcity-cars-guide">
           <span class="hc-meta">
-            <span class="hc-title">Check My Car's Value <span class="hc-pop">Free</span></span>
-            <span class="hc-desc">Real auction data. Know the number before you buy or sell.</span>
-            <span class="hc-free">↳ Instant valuation, results in seconds</span>
+            <span class="hc-title">Get the Car Buyer's Guide <span class="hc-pop">Free</span></span>
+            <span class="hc-desc">How to price a car honestly, 5 checks before you go see it, and the inspection list.</span>
+            <span class="hc-free">&rarr; Everyday cars and classics</span>
           </span>
           <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
         </a>
@@ -187,7 +187,7 @@
           <span class="hc-meta">
             <span class="hc-title">See Government Auction Deals</span>
             <span class="hc-desc">Seized &amp; surplus vehicles. Bid without getting burned.</span>
-            <span class="hc-free">↳ Free: Bidding Guide + Pre-Bid Checklist</span>
+            <span class="hc-free">&rarr; Free: Bidding Guide + Pre-Bid Checklist</span>
           </span>
           <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
         </a>
@@ -208,7 +208,7 @@
       </div>
     </div>
 
-    <!-- 2 · AI & BUSINESS SYSTEMS -->
+    <!-- 2 - AI & BUSINESS SYSTEMS -->
     <div class="hc-group">
       <button type="button" id="hc-door-systems" class="hc-door" aria-expanded="false" aria-controls="subs-systems" data-track="path" data-card="ai" data-pos="2">
         <span class="hc-ico"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3"/><path d="M9 15h6M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></span>
@@ -222,9 +222,9 @@
       <div class="hc-subs" id="subs-systems" role="region" aria-labelledby="hc-door-systems" hidden>
         <a class="hc-sub-link" data-track="path" data-card="ai-funnel" href="https://moto-city.systeme.io/fix-my-funnel?ref=hubcity-funnel">
           <span class="hc-meta">
-            <span class="hc-title">Fix My Funnel <span class="hc-pop">Free kit</span></span>
-            <span class="hc-desc">Systeme.io setup, funnel copy &amp; email sequences, done with you.</span>
-            <span class="hc-free">↳ Free: AI Business Launch Kit</span>
+            <span class="hc-title">Get My Funnel Build Checklist <span class="hc-pop">Free</span></span>
+            <span class="hc-desc">The 10 steps I follow for every Systeme.io page: one job, one action, delivery checked.</span>
+            <span class="hc-free">&rarr; How I built my funnels on Systeme.io</span>
           </span>
           <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
         </a>
@@ -232,7 +232,7 @@
           <span class="hc-meta">
             <span class="hc-title">Build a Smarter AI System</span>
             <span class="hc-desc">Run Claude, Kimi &amp; local models through one proxy.</span>
-            <span class="hc-free">↳ Free: HULK Proxy Setup Checklist</span>
+            <span class="hc-free">&rarr; Free: HULK Proxy Setup Checklist</span>
           </span>
           <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
         </a>
@@ -260,7 +260,7 @@
       </div>
     </div>
 
-    <!-- 3 · MUSIC & DJ -->
+    <!-- 3 - MUSIC & DJ -->
     <div class="hc-group">
       <button type="button" id="hc-door-music" class="hc-door" aria-expanded="false" aria-controls="subs-music" data-track="path" data-card="music" data-pos="3">
         <span class="hc-ico"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M3 14v-3a9 9 0 0118 0v3"/><rect x="2.5" y="12" width="4.5" height="8" rx="2"/><rect x="17" y="12" width="4.5" height="8" rx="2"/></svg></span>
@@ -283,7 +283,7 @@
           <span class="hc-meta">
             <span class="hc-title">Get the Sound Pack</span>
             <span class="hc-desc">Vintage audio, stems &amp; MIDI for your next production.</span>
-            <span class="hc-free">↳ Starter pack &amp; MIDI files inside</span>
+            <span class="hc-free">&rarr; Starter pack &amp; MIDI files inside</span>
           </span>
           <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
         </a>
@@ -297,13 +297,13 @@
       </div>
     </div>
 
-    <!-- 4 · HOLISTIC LIVING -->
+    <!-- 4 - HOLISTIC LIVING -->
     <div class="hc-group">
       <button type="button" id="hc-door-health" class="hc-door" aria-expanded="false" aria-controls="subs-health" data-track="path" data-card="health" data-pos="4">
         <span class="hc-ico"><svg viewBox="0 0 24 24" stroke-width="1.8" aria-hidden="true"><path d="M12 20c-5-2-7-6-7-10 5 0 8-3 8-6 4 3 6 7 4 11-1 3-3 5-5 5z"/><path d="M8 17c2-3 4-5 8-7"/></svg></span>
         <span class="hc-meta">
           <span class="hc-title">Holistic Living</span>
-          <span class="hc-desc">Practical wellness: frequencies, supplement recipes &amp; natural remedies.</span>
+          <span class="hc-desc">Energy habits for producers, DJs &amp; late-night hustlers.</span>
           <span class="hc-cta">Explore wellness</span>
         </span>
         <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
@@ -311,8 +311,8 @@
       <div class="hc-subs" id="subs-health" role="region" aria-labelledby="hc-door-health" hidden>
         <a class="hc-sub-link" data-track="path" data-card="health-guide" href="https://moto-city.systeme.io/health?ref=hubcity-holistic">
           <span class="hc-meta">
-            <span class="hc-title">Get the Wellness Starter Guide <span class="hc-pop">Free</span></span>
-            <span class="hc-desc">Energy stacks, frequency guides &amp; remedy protocols for creatives.</span>
+            <span class="hc-title">Get the Producer Energy Checklist <span class="hc-pop">Free</span></span>
+            <span class="hc-desc">10 habits, 10 minutes a day. Stay sharp through late sessions and back-to-back gigs.</span>
           </span>
           <span class="hc-chev"><svg viewBox="0 0 24 24" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span>
         </a>
@@ -364,7 +364,7 @@
       <a href="https://www.motocity.autos/terms-of-service">Terms</a>&middot;
       <a href="https://www.motocity.autos/affiliate-disclosure">Disclosure</a>
     </div>
-    <div>© City Funk Entertainment</div>
+    <div>&copy; City Funk Entertainment</div>
   </div>
 
 </div>
@@ -388,7 +388,7 @@
     } catch(e){}
   });
 
-  /* 2. Click events → whichever analytics is present */
+  /* 2. Click events -> whichever analytics is present */
   function track(name, props){
     try { (window.dataLayer = window.dataLayer || []).push((function(o){ for (var k in props) o[k] = props[k]; return o; })({event:name})); } catch(e){}
     try { if (window.gtag) gtag('event', name, props); } catch(e){}
